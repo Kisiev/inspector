@@ -19,4 +19,5 @@ use Modules\Auth\Http\Controllers\VerificationController;
 Route::group(['namespace' => 'Auth', 'prefix' => 'v1/auth'], function () {
     Route::post('register', [RegisterController::class, 'index']);
     Route::post('verification', [VerificationController::class, 'send']);
+    Route::get('verification', [VerificationController::class, 'verify']);
 });

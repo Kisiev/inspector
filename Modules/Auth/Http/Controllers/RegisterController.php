@@ -2,11 +2,12 @@
 
 namespace Modules\Auth\Http\Controllers;
 
+use App\Components\Controllers\BaseApiController;
 use App\Components\Forms\BaseForm;
 use Illuminate\Http\Request;
 use Modules\Auth\Services\Register\RegisterUserInterface;
 
-class RegisterController
+class RegisterController extends BaseApiController
 {
     private RegisterUserInterface $registerUserService;
     private BaseForm $registerForm;

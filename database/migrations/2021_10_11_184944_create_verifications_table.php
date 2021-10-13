@@ -17,13 +17,14 @@ class CreateVerificationsTable extends Migration
     {
         Schema::create('verifications', function (Blueprint $table) {
             $table->id();
-            $table->string('code');
+            $table->string('token');
             $table->enum('type', [
                 VerificationType::TYPE_EMAIL,
                 VerificationType::TYPE_PHONE,
             ])->default(VerificationType::TYPE_EMAIL);
 
             $table->string('value');
+            $table->string('code');
             $table->enum('status', [
                 VerificationStatus::STATUS_CONFIRM,
                 VerificationStatus::STATUS_EXPIRED,
@@ -32,7 +33,7 @@ class CreateVerificationsTable extends Migration
 
             $table->timestamps();
 
-            $table->index(['type', 'code']);
+            $table->index(['type', 'token']);
         });
     }
     

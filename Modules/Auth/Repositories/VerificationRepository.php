@@ -15,11 +15,11 @@ class VerificationRepository extends BaseRepository
         return (new Verification())->newQuery();
     }
     
-    public function getByParams(string $code, string $type = VerificationType::TYPE_EMAIL): ?Model
+    public function getByParams(string $token, string $type = VerificationType::TYPE_EMAIL): ?Model
     {
         return $this->getQuery()
             ->where('type', $type)
-            ->where('code', $code)
+            ->where('token', $token)
             ->first();
     }
 }

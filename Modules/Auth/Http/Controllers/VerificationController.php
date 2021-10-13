@@ -2,12 +2,15 @@
 
 namespace Modules\Auth\Http\Controllers;
 
+use App\Components\Controllers\BaseApiController;
 use App\Components\Forms\BaseForm;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Modules\Auth\Forms\VerificationCreateForm;
+use Modules\Auth\Http\Requests\VerifyRequest;
 use Modules\Auth\Services\Verification\EmailVerificationInterface;
 
-class VerificationController
+class VerificationController extends BaseApiController
 {
     private EmailVerificationInterface $emailVerification;
     
@@ -24,9 +27,17 @@ class VerificationController
         $this->verificationForm = $verificationForm;
     }
     
-    public function send(Request $request)
+    public function send(Request $request): JsonResponse
     {
         $this->verificationForm->load($request->all())->validate();
-        $this->emailVerification->notify($this->verificationForm->getDto()->getEmail());
+        $verificationCode = $this->emailVerification->notify($this->verificationForm->getDto()->getEmail());
+        
+        return $this->successResponse(['token' => $verificationCode]);
+    }
+    
+    public function verify(VerifyRequest $request): JsonResponse
+    {
+        $verificationId = $this->emailVerification->verify($request->get('token'), $request->get('code'));
+        return $this->successResponse(['verification' => $verificationId]);
     }
 }

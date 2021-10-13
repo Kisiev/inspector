@@ -7,10 +7,10 @@ use Illuminate\Database\Eloquent\Model;
 
 abstract class BaseRepository
 {
-    public function save(Model $model): Model
+    public function save(Model $model): void
     {
         $model->save();
-        return $model->refresh();
+        $model->refresh();
     }
     
     public abstract function getQuery(): Builder;
