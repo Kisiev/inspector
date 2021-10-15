@@ -5,6 +5,7 @@ namespace Modules\User\Services;
 use App\Components\Dto\BaseDto;
 use App\Repositories\BaseRepository;
 use Illuminate\Database\Eloquent\Model;
+use Modules\User\Dto\CreateUserDto;
 use Modules\User\Factories\UserFactory;
 
 class CreateUserService implements UserCreateInterface
@@ -19,6 +20,10 @@ class CreateUserService implements UserCreateInterface
         $this->userRepository = $userRepository;
     }
     
+    /**
+     * @param CreateUserDto $dto
+     * @return Model
+     */
     public function create(BaseDto $dto): Model
     {
         $user = UserFactory::create();

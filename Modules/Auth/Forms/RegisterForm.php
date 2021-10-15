@@ -8,19 +8,21 @@ use Modules\Auth\Dto\RegisterUserDto;
 
 class RegisterForm extends BaseForm
 {
-    protected function rules(): array
-    {
-        return [
-            'name'  => 'required|min:3',
-            'email' => 'unique:users|email|required',
-        ];
-    }
-    
     public function getDto(): BaseDto
     {
         $dto = new RegisterUserDto();
         $dto->loadFromArray($this->data);
-
+        
         return $dto;
+    }
+    
+    protected function rules(): array
+    {
+        return [
+            'name'                  => 'required|min:3',
+            'verification'          => 'exists:verifications,id|required',
+            'password'              => 'required|confirmed|min:4',
+            'password_confirmation' => 'required|min:4',
+        ];
     }
 }

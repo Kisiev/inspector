@@ -9,12 +9,14 @@ use JetBrains\PhpStorm\Pure;
 class RegisterUserDto extends BaseDto
 {
     private string $name;
-    private string $email;
+    private int $verificationId;
+    private string $password;
     
     public function loadFromArray(array $data): void
     {
         $this->name = $data['name'];
-        $this->email = $data['email'];
+        $this->verificationId = $data['verification'];
+        $this->password = $data['password'];
     }
     
     public function getName(): string
@@ -22,18 +24,24 @@ class RegisterUserDto extends BaseDto
         return $this->name;
     }
     
-    public function getEmail(): string
+    public function getVerificationId(): int
     {
-        return $this->email;
+        return $this->verificationId;
+    }
+    
+    public function getPassword(): string
+    {
+        return $this->password;
     }
     
     #[Pure]
-    #[ArrayShape(['name' => "string", 'email' => "string"])]
+    #[ArrayShape(['name' => 'string', 'verificationId' => 'int', 'password' => 'string'])]
     public function getProperties(): array
     {
         return [
             'name' => $this->getName(),
-            'email' => $this->getEmail()
+            'verificationId' => $this->getVerificationId(),
+            'password' => $this->getPassword()
         ];
     }
 }

@@ -22,4 +22,9 @@ class VerificationRepository extends BaseRepository
             ->where('token', $token)
             ->first();
     }
+    
+    public function findById(int $id): ?Model
+    {
+        return $this->getQuery()->find($id);
+    }
 }

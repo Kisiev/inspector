@@ -7,5 +7,5 @@ use Illuminate\Database\Eloquent\Model;
 
 interface RegisterUserInterface
 {
-    public function createUser(BaseDto $dto): Model;
+    public function register(BaseDto $dto): Model;
 }
