@@ -24,6 +24,7 @@ class CreateUserService implements UserCreateInterface
         $user = UserFactory::create();
         $user->fill($dto->getProperties());
 
-        return $this->userRepository->save($user);
+        $this->userRepository->save($user);
+        return $user;
     }
 }
