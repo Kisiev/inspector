@@ -2,7 +2,7 @@
 
 namespace App\Components\Helpers;
 
-class DataHelper
+class DateHelper
 {
     public const SQL_DATE_TIME_FORMAT = 'Y-m-d H:i:s';
     public const SQL_DATE_FORMAT = 'Y-m-d';

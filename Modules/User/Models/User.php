@@ -20,6 +20,7 @@ class User extends Authenticatable
     protected $fillable = [
         'name',
         'email',
+        'email_verified_at',
         'password',
     ];
 
@@ -42,8 +43,8 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
     
-    public function setAttribute()
+    public function setPasswordAttribute(string $password)
     {
-        $this->attributes['password'] = Hash::make($this->attributes['password']);
+        $this->attributes['password'] = Hash::make($password);
     }
 }

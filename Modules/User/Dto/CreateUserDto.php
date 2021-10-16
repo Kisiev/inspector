@@ -8,7 +8,7 @@ class CreateUserDto extends BaseDto
 {
     private string $name;
     private string $email;
-    private string $email_verified_at;
+    private ?string $email_verified_at;
     private string $password;
 
     public function loadFromArray(array $data): void
@@ -17,6 +17,11 @@ class CreateUserDto extends BaseDto
         $this->email = $data['email'];
         $this->email_verified_at = $data['email_verified_at'] ?? null;
         $this->password = $data['password'];
+    }
+    
+    public function setEmailVerifiedAt(string $dateTime): void
+    {
+        $this->email_verified_at = $dateTime;
     }
     
     public function getName(): string
@@ -29,9 +34,9 @@ class CreateUserDto extends BaseDto
         return $this->email;
     }
     
-    public function getEmailVerifiedAt(): string
+    public function getEmailVerifiedAt(): ?string
     {
-        return $this->email_verified_at;
+        return $this->email_verified_at ?? null;
     }
     
     public function getPassword(): string

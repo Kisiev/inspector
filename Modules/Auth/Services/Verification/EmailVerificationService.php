@@ -2,7 +2,7 @@
 
 namespace Modules\Auth\Services\Verification;
 
-use App\Components\Helpers\DataHelper;
+use App\Components\Helpers\DateHelper;
 use App\Repositories\BaseRepository;
 use Illuminate\Support\Str;
 use Modules\Auth\Constants\VerificationStatus;
@@ -62,8 +62,8 @@ class EmailVerificationService implements EmailVerificationInterface
             throw new InvalidVerificationCodeException();
         }
         
-        $expiredTime = DataHelper::modifyDate(DataHelper::now(), '-5 minutes');
-        $createdAt = DataHelper::strToTime($verification->created_at);
+        $expiredTime = DateHelper::modifyDate(DateHelper::now(), '-5 minutes');
+        $createdAt = DateHelper::strToTime($verification->created_at);
 
         if ($createdAt < $expiredTime) {
             $verification->status = VerificationStatus::STATUS_EXPIRED;

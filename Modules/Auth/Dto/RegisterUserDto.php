@@ -11,10 +11,12 @@ class RegisterUserDto extends BaseDto
     private string $name;
     private int $verificationId;
     private string $password;
+    private string $email;
     
     public function loadFromArray(array $data): void
     {
         $this->name = $data['name'];
+        $this->email = $data['email'];
         $this->verificationId = $data['verification'];
         $this->password = $data['password'];
     }
@@ -22,6 +24,11 @@ class RegisterUserDto extends BaseDto
     public function getName(): string
     {
         return $this->name;
+    }
+    
+    public function getEmail(): string
+    {
+        return $this->email;
     }
     
     public function getVerificationId(): int
@@ -35,13 +42,14 @@ class RegisterUserDto extends BaseDto
     }
     
     #[Pure]
-    #[ArrayShape(['name' => 'string', 'verificationId' => 'int', 'password' => 'string'])]
+    #[ArrayShape(['name' => "string", 'verificationId' => "int", 'password' => "string", 'email' => "string"])]
     public function getProperties(): array
     {
         return [
             'name' => $this->getName(),
             'verificationId' => $this->getVerificationId(),
-            'password' => $this->getPassword()
+            'password' => $this->getPassword(),
+            'email' => $this->getEmail()
         ];
     }
 }

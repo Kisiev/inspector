@@ -3,8 +3,10 @@
 namespace Modules\Auth\Services\Register;
 
 use App\Components\Dto\BaseDto;
+use App\Components\Helpers\DateHelper;
 use Illuminate\Database\Eloquent\Model;
 use Modules\Auth\Dto\RegisterUserDto;
+use Modules\Auth\Exceptions\NotVerifyEmailException;
 use Modules\Auth\Services\Verification\ConfirmedInterface;
 use Modules\Auth\Services\Verification\VerificationConfirmedService;
 use Modules\User\Dto\CreateUserDto;
@@ -38,14 +40,13 @@ class RegisterService implements RegisterUserInterface
     {
         $email = $this->verificationConfirmedService->getConfirmedValueById($dto->getVerificationId());
 
+        if ($email !== $dto->getEmail()) {
+            throw new NotVerifyEmailException();
+        }
+
         $createUserDto = new CreateUserDto();
-        $createUserDto->loadFromArray(
-            [
-                'email' => $email,
-                'password' => $dto->getPassword(),
-                'name' => $dto->getName(),
-            ]
-        );
+        $createUserDto->loadFromArray($dto->getProperties());
+        $createUserDto->setEmailVerifiedAt(DateHelper::now());
         
         return $this->createUserService->create($createUserDto);
     }
