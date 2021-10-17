@@ -2,8 +2,6 @@
 
 namespace App\Providers;
 
-use App\Components\Validation\ValidationEntity;
-use App\Components\Validation\ValidationEntityInterface;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -15,7 +13,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app->bind(ValidationEntityInterface::class, ValidationEntity::class);
+
     }
 
     /**
