@@ -2,6 +2,7 @@
 
 namespace Modules\Auth\Providers;
 
+use App\Components\Formatters\BaseFormatter;
 use App\Components\Forms\BaseForm;
 use App\Repositories\BaseRepository;
 use Illuminate\Support\ServiceProvider;
@@ -16,7 +17,10 @@ use Modules\Auth\Services\Register\RegisterUserInterface;
 use Modules\Auth\Services\Verification\ConfirmedInterface;
 use Modules\Auth\Services\Verification\EmailVerificationInterface;
 use Modules\Auth\Services\Verification\EmailVerificationService;
+use Modules\Auth\Services\Verification\ThrottlingInterface;
 use Modules\Auth\Services\Verification\VerificationConfirmedService;
+use Modules\Auth\Services\Verification\VerificationThrottleService;
+use Modules\User\Formatters\UserFormatter;
 use Modules\User\Repositories\UserRepository;
 use Modules\User\Services\CreateUserService;
 use Modules\User\Services\UserCreateInterface;
@@ -67,10 +71,23 @@ class RegisterServiceProvider extends ServiceProvider
                 return app(RegisterForm::class);
             });
         
+        $this->app->when(RegisterController::class)
+            ->needs(BaseFormatter::class)
+            ->give(function() {
+                return app(UserFormatter::class);
+            });
+        
+        $this->app->when(VerificationThrottleService::class)
+            ->needs(BaseRepository::class)
+            ->give(function() {
+                return app(VerificationRepository::class);
+            });
+        
         $this->app->instance(ConfirmedInterface::class, app(VerificationConfirmedService::class));
         $this->app->instance(UserCreateInterface::class, app(CreateUserService::class));
         $this->app->instance(RegisterUserInterface::class, app(RegisterService::class));
         $this->app->instance(EmailVerificationInterface::class, app(EmailVerificationService::class));
+        $this->app->instance(ThrottlingInterface::class, app(VerificationThrottleService::class));
         
     }
 }

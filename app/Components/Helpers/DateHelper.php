@@ -6,6 +6,7 @@ class DateHelper
 {
     public const SQL_DATE_TIME_FORMAT = 'Y-m-d H:i:s';
     public const SQL_DATE_FORMAT = 'Y-m-d';
+    public const MINUTES_FORMAT = 'i:s';
 
     public static function strToTime(string $dateTime): int
     {
@@ -19,7 +20,12 @@ class DateHelper
     
     public static function toFormat(string $date, string $format = self::SQL_DATE_TIME_FORMAT): string
     {
-        return date(strtotime($date), $format);
+        return date($format, strtotime($date));
+    }
+    
+    public static function timeToFormat(string $time, string $format = self::SQL_DATE_TIME_FORMAT): string
+    {
+        return date($format, $time);
     }
     
     public static function now(): string

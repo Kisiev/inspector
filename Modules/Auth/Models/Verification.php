@@ -11,6 +11,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property string $token
  * @property string $code
  * @property string $status
+ * @property string $sender_ip
  * @property string $created_at
  * @property string $updated_at
  */

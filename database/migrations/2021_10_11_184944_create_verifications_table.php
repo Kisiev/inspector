@@ -31,6 +31,7 @@ class CreateVerificationsTable extends Migration
                 VerificationStatus::STATUS_SENT,
             ])->default(VerificationStatus::STATUS_SENT);
 
+            $table->ipAddress('sender_ip')->nullable();
             $table->timestamps();
 
             $table->index(['type', 'token']);

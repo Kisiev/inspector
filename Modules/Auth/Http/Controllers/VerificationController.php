@@ -29,8 +29,9 @@ class VerificationController extends BaseApiController
     
     public function send(Request $request): JsonResponse
     {
-        $this->verificationForm->load($request->all())->validate();
-        $verificationCode = $this->emailVerification->notify($this->verificationForm->getDto()->getEmail());
+        $this->verificationForm->loadFromRequest($request);
+        $this->verificationForm->validate();
+        $verificationCode = $this->emailVerification->notify($this->verificationForm->getDto());
         
         return $this->successResponse(['token' => $verificationCode]);
     }
