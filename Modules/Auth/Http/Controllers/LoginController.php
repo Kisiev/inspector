@@ -13,8 +13,6 @@ use Modules\Auth\Services\Login\CheckPasswordInterface;
 use Modules\Auth\Services\Login\CheckPasswordService;
 use Modules\Auth\Services\Login\CreateTokenInterface;
 use Modules\Auth\Services\Login\CreateTokenService;
-use Modules\Auth\Services\Login\LoginInterface;
-use Modules\Auth\Services\Login\LoginService;
 use Modules\User\Formatters\UserFormatter;
 use Modules\User\Models\User;
 use Modules\User\Services\FindUserInterface;
