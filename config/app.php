@@ -1,6 +1,7 @@
 <?php
 
 use Modules\Auth\Providers\RegisterServiceProvider;
+use Modules\User\Providers\UserServiceProvider;
 
 return [
 
@@ -176,7 +177,8 @@ return [
         // App\Providers\BroadcastServiceProvider::class,
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
-        RegisterServiceProvider::class
+        UserServiceProvider::class,
+        RegisterServiceProvider::class,
     ],
 
     /*
