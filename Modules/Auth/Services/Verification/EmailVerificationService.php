@@ -8,6 +8,7 @@ use App\Repositories\BaseRepository;
 use Illuminate\Support\Str;
 use Modules\Auth\Constants\VerificationStatus;
 use Modules\Auth\Dto\VerificationCreateDto;
+use Modules\Auth\Events\ConfirmEmailEvent;
 use Modules\Auth\Exceptions\InvalidVerificationCodeException;
 use Modules\Auth\Exceptions\VerificationCodeExpiredException;
 use Modules\Auth\Exceptions\VerificationNotFoundException;
@@ -15,6 +16,8 @@ use Modules\Auth\Exceptions\VerificationStatusNotValidException;
 use Modules\Auth\Factories\EmailVerificationFactory;
 use Modules\Auth\Models\Verification;
 use Modules\Auth\Repositories\VerificationRepository;
+use Modules\Notification\Events\BaseEmailSendEvent;
+use Modules\Notification\Events\EmailSendEvent;
 
 class EmailVerificationService implements EmailVerificationInterface
 {
@@ -45,7 +48,9 @@ class EmailVerificationService implements EmailVerificationInterface
         $verification->sender_ip = $dto->getSenderIp();
         
         $this->verificationRepository->save($verification);
-        
+
+        event(new EmailSendEvent($dto->getEmail(), $this->getMessageByCode($verification->code)));
+
         return $verification->token;
     }
     
@@ -84,5 +89,10 @@ class EmailVerificationService implements EmailVerificationInterface
     private function getHash(): string
     {
         return Str::random(self::CODE_LENGTH);
+    }
+    
+    private function getMessageByCode(string $code): string
+    {
+        return "Код подтверждения: {$code}";
     }
 }

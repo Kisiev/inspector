@@ -1,6 +1,7 @@
 <?php
 
 use Modules\Auth\Providers\RegisterServiceProvider;
+use Modules\Notification\Providers\NotificationServiceProvider;
 use Modules\User\Providers\UserServiceProvider;
 
 return [
@@ -179,6 +180,7 @@ return [
         App\Providers\RouteServiceProvider::class,
         UserServiceProvider::class,
         RegisterServiceProvider::class,
+        NotificationServiceProvider::class
     ],
 
     /*
