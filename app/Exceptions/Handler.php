@@ -4,6 +4,7 @@ namespace App\Exceptions;
 
 use App\Components\Serializers\ExceptionSerializer;
 use App\Components\Serializers\ValidationExceptionSerializer;
+use App\Events\ThrowServerErrorEvent;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Illuminate\Validation\ValidationException;
 use Symfony\Component\HttpFoundation\Response as ResponseAlias;
@@ -70,7 +71,10 @@ class Handler extends ExceptionHandler
                 $errors['code'] = $exception->getCode();
             }
 
-            return (new ExceptionSerializer($exception->getMessage(), $status, $errors))->jsonResponse();
+            $error = (new ExceptionSerializer($exception->getMessage(), $status, $errors));
+            event(new ThrowServerErrorEvent(json_encode($error->toArray())));
+
+            return $error->jsonResponse();
         }
     }
 }

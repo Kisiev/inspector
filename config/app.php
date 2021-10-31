@@ -2,6 +2,7 @@
 
 use Modules\Auth\Providers\RegisterServiceProvider;
 use Modules\Notification\Providers\NotificationServiceProvider;
+use Modules\Telegram\Providers\TelegramServiceProvider;
 use Modules\User\Providers\UserServiceProvider;
 
 return [
@@ -180,7 +181,8 @@ return [
         App\Providers\RouteServiceProvider::class,
         UserServiceProvider::class,
         RegisterServiceProvider::class,
-        NotificationServiceProvider::class
+        NotificationServiceProvider::class,
+        TelegramServiceProvider::class,
     ],
 
     /*
