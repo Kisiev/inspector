@@ -18,8 +18,8 @@ use Modules\Auth\Http\Controllers\VerificationController;
 */
 
 Route::group(['namespace' => 'Auth', 'prefix' => 'v1/auth'], function () {
-    Route::post('login', [LoginController::class, 'index']);
-    Route::post('register', [RegisterController::class, 'index']);
-    Route::post('verification', [VerificationController::class, 'send'])->middleware('verification.throttle');
-    Route::get('verification', [VerificationController::class, 'verify']);
+    Route::post('login', [LoginController::class, 'index'])->name('login');
+    Route::post('register', [RegisterController::class, 'index'])->name('register');
+    Route::post('verification', [VerificationController::class, 'send'])->middleware('verification.throttle')->name('verification.send');
+    Route::get('verification', [VerificationController::class, 'verify'])->name('verification.verify');
 });
