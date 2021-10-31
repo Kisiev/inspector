@@ -3,8 +3,10 @@
 namespace Tests\Feature;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Facades\Event;
 use Modules\Auth\Constants\VerificationStatus;
 use Modules\Auth\Models\Verification;
+use Modules\Notification\Events\EmailSendEvent;
 use Modules\User\Models\User;
 
 class AuthTest extends AbstractBaseTest
@@ -13,6 +15,7 @@ class AuthTest extends AbstractBaseTest
 
     public function testVerificationEmail()
     {
+        Event::fake();
         $response = $this->json('POST', route('verification.send'));
         $response->assertStatus(422);
         $response->assertJsonValidationErrors(['email', 'type']);
@@ -26,6 +29,7 @@ class AuthTest extends AbstractBaseTest
         $this->assertDatabaseHas('verifications', [
             'token' => $data['data']['token']
         ]);
+        Event::assertDispatched(EmailSendEvent::class);
     }
     
     public function testVerify()
