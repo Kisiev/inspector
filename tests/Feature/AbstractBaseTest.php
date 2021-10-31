@@ -12,13 +12,15 @@ abstract class AbstractBaseTest extends TestCase
 {
     protected const DEFAULT_CODE = 1111;
     protected const DEFAULT_TOKEN = '111111111111111111111111111111';
+    protected const DEFAULT_EMAIL = 'admin@test.ru';
+    protected const DEFAULT_PASSWORD = '1111';
 
     protected function createVerification(): Model
     {
         return (new Verification())->newQuery()->create(
             [
                 'code' => self::DEFAULT_CODE,
-                'value' => 'kis@val.ru',
+                'value' => self::DEFAULT_EMAIL,
                 'type' => 'email',
                 'token' => self::DEFAULT_TOKEN,
                 'status' => VerificationStatus::STATUS_SENT
@@ -31,8 +33,8 @@ abstract class AbstractBaseTest extends TestCase
         return (new User())->newQuery()->create(
             [
                 'name' => 'FIO',
-                'email' => 'kis@kis.ru',
-                'password' => '1111'
+                'email' => self::DEFAULT_EMAIL,
+                'password' => self::DEFAULT_PASSWORD
             ]
         );
     }

@@ -22,7 +22,7 @@ class AuthTest extends AbstractBaseTest
         
         $response = $this->json('POST', route('verification.send'), [
             'type' => 'email',
-            'email' => 'kis@val.ru'
+            'email' => self::DEFAULT_EMAIL
         ]);
         $response->assertStatus(200);
         $data = $response->decodeResponseJson()->json();
@@ -72,8 +72,8 @@ class AuthTest extends AbstractBaseTest
 
         $response = $this->json('POST', route('register'), [
             'name' => 'FIO',
-            'password' => '1111',
-            'password_confirmation' => '1111',
+            'password' => self::DEFAULT_PASSWORD,
+            'password_confirmation' => self::DEFAULT_PASSWORD,
             'verification' => $verification->id,
             'email' => $verification->value
         ]);
@@ -95,7 +95,7 @@ class AuthTest extends AbstractBaseTest
 
         $response = $this->json('POST', route('login'), [
             'email' => $user->email,
-            'password' => '1111'
+            'password' => self::DEFAULT_PASSWORD
         ]);
 
         $data = $response->decodeResponseJson()->json();
