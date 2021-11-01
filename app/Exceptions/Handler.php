@@ -72,7 +72,7 @@ class Handler extends ExceptionHandler
             }
 
             $error = (new ExceptionSerializer($exception->getMessage(), $status, $errors));
-            event(new ThrowServerErrorEvent(json_encode($error->toArray())));
+            event(new ThrowServerErrorEvent($error->getMessage(), $error->getStatus(), $error->getErrors()));
 
             return $error->jsonResponse();
         }

@@ -14,10 +14,14 @@ class ThrowServerErrorEvent
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
-    public string $content;
+    public string $message;
+    public int $status;
+    public array $errors;
 
-    public function __construct(string $content)
+    public function __construct(string $message, int $status = 500, array $errors = [])
     {
-        $this->content = $content;
+        $this->message = $message;
+        $this->status = $status;
+        $this->errors = $errors;
     }
 }

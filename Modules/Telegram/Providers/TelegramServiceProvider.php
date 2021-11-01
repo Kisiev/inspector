@@ -7,6 +7,8 @@ use Illuminate\Support\Facades\Event;
 use Illuminate\Support\ServiceProvider;
 use Modules\Telegram\Listeners\ServerErrorListener;
 use Modules\Telegram\Services\Bot\ApiBot;
+use Modules\Telegram\Services\Bot\ClientBot;
+use Modules\Telegram\Services\Bot\SendMessageInterface;
 use Modules\Telegram\Services\Bot\WebhookInterface;
 
 class TelegramServiceProvider extends ServiceProvider
@@ -27,6 +29,10 @@ class TelegramServiceProvider extends ServiceProvider
 
     private function dependencies()
     {
+        $this->app->when(ServerErrorListener::class)
+            ->needs(SendMessageInterface::class)
+            ->give(ClientBot::class);
+
         $this->app->instance(WebhookInterface::class, app(ApiBot::class));
     }
 }
