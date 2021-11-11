@@ -3,7 +3,6 @@
 namespace Modules\Auth\Http\Controllers;
 
 use App\Components\Controllers\BaseApiController;
-use App\Components\Formatters\BaseFormatter;
 use App\Components\Forms\BaseForm;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -13,8 +12,8 @@ use Modules\Auth\Services\Login\CheckPasswordInterface;
 use Modules\Auth\Services\Login\CheckPasswordService;
 use Modules\Auth\Services\Login\CreateTokenInterface;
 use Modules\Auth\Services\Login\CreateTokenService;
-use Modules\User\Formatters\UserFormatter;
 use Modules\User\Models\User;
+use Modules\User\Resources\UserCollection;
 use Modules\User\Services\FindUserInterface;
 use Modules\User\Services\UserService;
 
@@ -26,9 +25,6 @@ class LoginController extends BaseApiController
     /** @var LoginForm */
     private BaseForm $form;
     
-    /** @var UserFormatter */
-    private BaseFormatter $userFormatter;
-    
     /** @var CheckPasswordService  */
     private CheckPasswordInterface $checkPasswordService;
     
@@ -39,14 +35,12 @@ class LoginController extends BaseApiController
     (
         FindUserInterface $userService,
         BaseForm $form,
-        BaseFormatter $userFormatter,
         CheckPasswordInterface $checkPasswordService,
         CreateTokenInterface $createTokenService
     )
     {
         $this->userService = $userService;
         $this->form = $form;
-        $this->userFormatter = $userFormatter;
         $this->checkPasswordService = $checkPasswordService;
         $this->createTokenService = $createTokenService;
     }
@@ -67,7 +61,7 @@ class LoginController extends BaseApiController
         return $this->successResponse(
             [
                 'token' => $token,
-                'user'  => $this->userFormatter->serialize($user)
+                'user'  => new UserCollection($user)
             ]
         );
     }

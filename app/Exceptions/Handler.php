@@ -51,20 +51,25 @@ class Handler extends ExceptionHandler
             $exception = $this->prepareException($e);
             if ($exception instanceof ValidationException) {
                 return (new ValidationExceptionSerializer($exception->validator, $exception->getMessage(), ResponseAlias::HTTP_UNPROCESSABLE_ENTITY, $exception->errors()))->jsonResponse();
-            } else if ($exception instanceof NotFoundHttpException) {
-                $message = empty($exception->getMessage()) ? 'Страница не найдена' : $exception->getMessage();
-                 return (new ExceptionSerializer($message, ResponseAlias::HTTP_NOT_FOUND))->jsonResponse();
-            } else if ($exception instanceof UnSuccessException) {
-                return (new ExceptionSerializer($exception->getMessage(), $exception->getStatusCode()))->jsonResponse();
+            } else {
+                if ($exception instanceof NotFoundHttpException) {
+                    $message = empty($exception->getMessage()) ? 'Страница не найдена' : $exception->getMessage();
+                    
+                    return (new ExceptionSerializer($message, ResponseAlias::HTTP_NOT_FOUND))->jsonResponse();
+                } else {
+                    if ($exception instanceof UnSuccessException) {
+                        return (new ExceptionSerializer($exception->getMessage(), $exception->getStatusCode()))->jsonResponse();
+                    }
+                }
             }
-
+            
             $errors = [];
             $status = ResponseAlias::HTTP_INTERNAL_SERVER_ERROR;
-
-            if (method_exists($exception,'getStatusCode')) {
+            
+            if (method_exists($exception, 'getStatusCode')) {
                 $status = $exception->getStatusCode();
             }
-
+            
             if (config('app.debug')) {
                 $errors['line'] = $exception->getLine();
                 $errors['trace'] = $exception->getTrace();
@@ -72,9 +77,17 @@ class Handler extends ExceptionHandler
             }
 
             $error = (new ExceptionSerializer($exception->getMessage(), $status, $errors));
-            event(new ThrowServerErrorEvent($error->getMessage(), $error->getStatus(), $error->getErrors()));
+            $this->sendEvent($error);
 
             return $error->jsonResponse();
+        }
+    }
+    
+    public function sendEvent(ExceptionSerializer $error)
+    {
+        try {
+            event(new ThrowServerErrorEvent($error->getMessage(), $error->getStatus(), $error->getErrors()));
+        } catch (\Exception $exception) {
         }
     }
 }

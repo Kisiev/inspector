@@ -3,14 +3,13 @@
 namespace Modules\Auth\Http\Controllers;
 
 use App\Components\Controllers\BaseApiController;
-use App\Components\Formatters\BaseFormatter;
 use App\Components\Forms\BaseForm;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Modules\Auth\Forms\RegisterForm;
 use Modules\Auth\Services\Register\RegisterService;
 use Modules\Auth\Services\Register\RegisterUserInterface;
-use Modules\User\Formatters\UserFormatter;
+use Modules\User\Resources\UserCollection;
 
 class RegisterController extends BaseApiController
 {
@@ -19,20 +18,15 @@ class RegisterController extends BaseApiController
     
     /** @var RegisterForm  */
     private BaseForm $registerForm;
-    
-    /** @var UserFormatter  */
-    private BaseFormatter $userFormatter;
 
     public function __construct
     (
         RegisterUserInterface $registerUserService,
         BaseForm $registerForm,
-        BaseFormatter $userFormatter
     )
     {
         $this->registerUserService = $registerUserService;
         $this->registerForm = $registerForm;
-        $this->userFormatter = $userFormatter;
     }
     
     /**
@@ -45,6 +39,6 @@ class RegisterController extends BaseApiController
         $this->registerForm->load($request->all())->validate();
         $user = $this->registerUserService->register($this->registerForm->getDto());
         
-        return $this->successResponse(['user' => $this->userFormatter->serialize($user)]);
+        return $this->successResponse(['user' => new UserCollection($user)]);
     }
 }

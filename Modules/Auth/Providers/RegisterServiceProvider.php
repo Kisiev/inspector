@@ -2,7 +2,6 @@
 
 namespace Modules\Auth\Providers;
 
-use App\Components\Formatters\BaseFormatter;
 use App\Components\Forms\BaseForm;
 use App\Repositories\BaseRepository;
 use Illuminate\Support\ServiceProvider;
@@ -25,7 +24,6 @@ use Modules\Auth\Services\Verification\EmailVerificationService;
 use Modules\Auth\Services\Verification\ThrottlingInterface;
 use Modules\Auth\Services\Verification\VerificationConfirmedService;
 use Modules\Auth\Services\Verification\VerificationThrottleService;
-use Modules\User\Formatters\UserFormatter;
 use Modules\User\Repositories\UserRepository;
 
 class RegisterServiceProvider extends ServiceProvider
@@ -68,12 +66,6 @@ class RegisterServiceProvider extends ServiceProvider
                 return app(RegisterForm::class);
             });
         
-        $this->app->when(RegisterController::class)
-            ->needs(BaseFormatter::class)
-            ->give(function() {
-                return app(UserFormatter::class);
-            });
-        
         $this->app->when(VerificationThrottleService::class)
             ->needs(BaseRepository::class)
             ->give(function() {
@@ -84,12 +76,6 @@ class RegisterServiceProvider extends ServiceProvider
             ->needs(BaseForm::class)
             ->give(function() {
                 return app(LoginForm::class);
-            });
-        
-        $this->app->when(LoginController::class)
-            ->needs(BaseFormatter::class)
-            ->give(function() {
-                return app(UserFormatter::class);
             });
         
         $this->app->instance(CreateTokenInterface::class, app(CreateTokenService::class));
