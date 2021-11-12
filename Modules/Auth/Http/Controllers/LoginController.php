@@ -61,7 +61,7 @@ class LoginController extends BaseApiController
         return $this->successResponse(
             [
                 'token' => $token,
-                'user'  => new UserCollection($user)
+                'user'  => UserCollection::make($user)
             ]
         );
     }

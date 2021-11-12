@@ -39,6 +39,6 @@ class RegisterController extends BaseApiController
         $this->registerForm->load($request->all())->validate();
         $user = $this->registerUserService->register($this->registerForm->getDto());
         
-        return $this->successResponse(['user' => new UserCollection($user)]);
+        return $this->successResponse(['user' => UserCollection::make($user)]);
     }
 }

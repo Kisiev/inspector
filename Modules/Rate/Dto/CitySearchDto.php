@@ -7,7 +7,7 @@ use JetBrains\PhpStorm\ArrayShape;
 
 class CitySearchDto extends BaseDto
 {
-    private string $name;
+    private ?string $name;
 
     public function loadFromArray(array $data): void
     {

@@ -7,6 +7,7 @@ use App\Components\Search\BaseSearch;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Modules\Rate\Dto\CitySearchDto;
+use Modules\Rate\Resources\CityCollection;
 
 class CityController extends BaseApiController
 {
@@ -24,11 +25,9 @@ class CityController extends BaseApiController
     {
         $dto = new CitySearchDto();
         $dto->loadFromArray($request->all());
-        
-        return $this->successResponse(
-            [
-                'message'
-            ]
-        );
+
+        $cities = CityCollection::make($this->search->search($dto));
+
+        return $this->successResponse($cities);
     }
 }
