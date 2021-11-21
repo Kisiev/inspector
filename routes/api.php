@@ -6,6 +6,7 @@ use Modules\Auth\Http\Controllers\LoginController;
 use Modules\Auth\Http\Controllers\RegisterController;
 use Modules\Auth\Http\Controllers\VerificationController;
 use Modules\Rate\Http\Controllers\CityController;
+use Modules\Rate\Http\Controllers\ShopController;
 use Modules\Telegram\Http\Controllers\TelegramController;
 
 /*
@@ -28,6 +29,7 @@ Route::group(['namespace' => 'Auth', 'prefix' => 'v1/auth'], function () {
 
 Route::group(['namespace' => 'Rate', 'prefix' => 'v1'], function () {
     Route::get('city', [CityController::class, 'index']);
+    Route::get('shop', [ShopController::class, 'index']);
 });
 
 Route::group(['prefix' => 'telegram'], function () {

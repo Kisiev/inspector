@@ -6,10 +6,10 @@ use App\Components\Controllers\BaseApiController;
 use App\Components\Search\BaseSearch;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use Modules\Rate\Dto\CitySearchDto;
-use Modules\Rate\Resources\City\CityCollection;
+use Modules\Rate\Dto\ShopSearchDto;
+use Modules\Rate\Resources\Shop\ShopCollection;
 
-class CityController extends BaseApiController
+class ShopController extends BaseApiController
 {
     private BaseSearch $search;
     
@@ -23,11 +23,11 @@ class CityController extends BaseApiController
     
     public function index(Request $request): JsonResponse
     {
-        $dto = new CitySearchDto();
+        $dto = new ShopSearchDto();
         $dto->loadFromArray($request->all());
 
-        $cities = CityCollection::make($this->search->search($dto));
+        $shops = ShopCollection::make($this->search->search($dto));
 
-        return $this->successResponse($cities);
+        return $this->successResponse($shops);
     }
 }

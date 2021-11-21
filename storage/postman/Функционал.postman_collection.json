@@ -1,0 +1,89 @@
+{
+	"info": {
+		"_postman_id": "8449a066-b9ee-44bb-9933-47ef6d882006",
+		"name": "Функционал",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Города",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": []
+				},
+				"url": {
+					"raw": "{{host}}/v1/city",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"v1",
+						"city"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Заведения",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": []
+				},
+				"url": {
+					"raw": "{{host}}/v1/shop?city_id=1&name=Лим&rate_from=4&rate_to=5",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"v1",
+						"shop"
+					],
+					"query": [
+						{
+							"key": "city_id",
+							"value": "1"
+						},
+						{
+							"key": "name",
+							"value": "Лим"
+						},
+						{
+							"key": "rate_from",
+							"value": "4"
+						},
+						{
+							"key": "rate_to",
+							"value": "5"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

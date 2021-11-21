@@ -1,20 +1,20 @@
 <?php
 
-namespace Modules\Rate\Resources;
+namespace Modules\Rate\Resources\Shop;
 
 use App\Resources\PaginatorCollection;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use JetBrains\PhpStorm\ArrayShape;
 
-class CityCollection extends PaginatorCollection
+class ShopCollection extends PaginatorCollection
 {
     #[ArrayShape(['items' => AnonymousResourceCollection::class])]
     public function withItems(): array
     {
         /** @var LengthAwarePaginator $this */
         return [
-            'items' => CityResource::collection($this->items()),
+            'items' => ShopResource::collection($this->items()),
         ];
     }
 }

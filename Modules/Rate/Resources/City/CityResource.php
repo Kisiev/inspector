@@ -1,6 +1,6 @@
 <?php
 
-namespace Modules\Rate\Resources;
+namespace Modules\Rate\Resources\City;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 use Modules\Rate\Models\City;
