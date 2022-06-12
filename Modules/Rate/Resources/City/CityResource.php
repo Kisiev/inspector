@@ -13,6 +13,8 @@ class CityResource extends JsonResource
         return [
             'id'   => $this->id,
             'name' => $this->name,
+            'long' => $this->long,
+            'lat'  => $this->lat,
         ];
     }
 }

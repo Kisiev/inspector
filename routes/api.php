@@ -30,6 +30,7 @@ Route::group(['namespace' => 'Auth', 'prefix' => 'v1/auth'], function () {
 Route::group(['namespace' => 'Rate', 'prefix' => 'v1'], function () {
     Route::get('city', [CityController::class, 'index']);
     Route::get('shop', [ShopController::class, 'index']);
+    Route::post('review', [ShopController::class, 'review'])->middleware('auth:sanctum');
 });
 
 Route::group(['prefix' => 'telegram'], function () {

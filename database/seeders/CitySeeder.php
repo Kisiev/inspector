@@ -11,8 +11,10 @@ class CitySeeder extends Seeder
     {
         DB::table('city')->updateOrInsert(
             [
-                'id' => 1,
-                'name' => 'Владикавказ'
+                'id'   => 1,
+                'name' => 'Владикавказ',
+                'lat'  => '43',
+                'long' => '44',
             ]
         );
     }
