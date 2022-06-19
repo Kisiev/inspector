@@ -4,7 +4,10 @@ namespace Modules\Rate\Providers;
 
 use App\Components\Search\BaseSearch;
 use App\Repositories\BaseRepository;
+use Illuminate\Support\Facades\Event;
 use Illuminate\Support\ServiceProvider;
+use Modules\Rate\Events\RateEvent;
+use Modules\Rate\Handlers\RateCreateHandler;
 use Modules\Rate\Http\Controllers\CityController;
 use Modules\Rate\Http\Controllers\ShopController;
 use Modules\Rate\Repositories\CityRepository;
@@ -15,6 +18,20 @@ use Modules\Rate\Services\Shop\ShopSearch;
 class RateServiceProvider extends ServiceProvider
 {
     public function boot()
+    {
+        $this->bootstrap();
+        $this->events();
+    }
+    
+    public function events(): void
+    {
+        Event::listen(
+            RateEvent::class,
+            [RateCreateHandler::class, 'handle']
+        );
+    }
+    
+    public function bootstrap(): void
     {
         $this->app->when(CitySearch::class)
             ->needs(BaseRepository::class)

@@ -6,6 +6,15 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Modules\User\Models\User;
 
+/**
+ * @property int $shop_id
+ * @property int $user_id
+ * @property int $text
+ * @property int $type
+ * @property int $rate
+ * @property int $id
+ * @property Shop $shop
+ */
 class Review extends Model
 {
     protected $table = 'review';

@@ -50,6 +50,6 @@ class ShopController extends BaseApiController
         );
         
         $review = $this->reviewCrudService->create($form->getDto());
-        return $this->successResponse($review);
+        return $this->successResponse([]);
     }
 }

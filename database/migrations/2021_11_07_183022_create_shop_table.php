@@ -20,6 +20,7 @@ class CreateShopTable extends Migration
             $table->string('lat');
             $table->string('long');
             $table->string('rate')->nullable()->index();
+            $table->decimal('reviews_value')->default(0);
             $table->integer('reviews_count')->default(0);
             $table->boolean('is_active')->default(true);
             $table->foreignId('city_id')->constrained('city')->onDelete('cascade');

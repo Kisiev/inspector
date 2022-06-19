@@ -5,7 +5,9 @@ namespace Modules\Rate\Services\Review;
 use App\Components\Dto\BaseDto;
 use App\Components\Services\CrudService;
 use Illuminate\Database\Eloquent\Model;
+use Modules\Rate\Events\RateEvent;
 use Modules\Rate\Factories\ReviewFactory;
+use Modules\Rate\Models\Review;
 use Modules\Rate\Repositories\ReviewRepository;
 
 class ReviewCrudService implements CrudService
@@ -19,10 +21,13 @@ class ReviewCrudService implements CrudService
     
     public function create(BaseDto $dto): Model
     {
+        /** @var Review $review */
         $review = ReviewFactory::create();
         $review->fill($dto->getProperties());
         unset($review->id);
         $this->repository->save($review);
+        
+        event(new RateEvent($review));
         return $review;
     }
     
