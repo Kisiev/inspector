@@ -9,16 +9,20 @@ use Illuminate\Http\Request;
 use Modules\Rate\Dto\ShopSearchDto;
 use Modules\Rate\Forms\ReviewForm;
 use Modules\Rate\Resources\Shop\ShopCollection;
+use Modules\Rate\Services\Review\ReviewCrudService;
 
 class ShopController extends BaseApiController
 {
     private BaseSearch $search;
+    private ReviewCrudService $reviewCrudService;
     
     public function __construct
     (
-        BaseSearch $search
+        BaseSearch $search,
+        ReviewCrudService $reviewCrudService
     ) {
         $this->search = $search;
+        $this->reviewCrudService = $reviewCrudService;
     }
     
     public function index(Request $request): JsonResponse
@@ -36,14 +40,16 @@ class ShopController extends BaseApiController
         $form = new ReviewForm();
         $form->load(
             [
+                'id'      => $request->get('id'),
                 'user_id' => $request->user()->id ?? '',
-                'shop_id' => $request->get('shop_id', ''),
-                'rate'    => $request->get('rate', ''),
-                'text'    => $request->get('text', ''),
+                'shop_id' => $request->get('shop_id'),
+                'rate'    => $request->get('rate'),
+                'text'    => $request->get('text'),
+                'type'    => $request->get('type'),
             ]
         );
         
-        $form->validate();
-        $form->getDto();
+        $review = $this->reviewCrudService->create($form->getDto());
+        return $this->successResponse($review);
     }
 }
