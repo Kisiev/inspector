@@ -12,9 +12,11 @@ class RateEvent
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
     public Review $review;
+    public int $oldRate = 0;
 
-    public function __construct(Review $review)
+    public function __construct(Review $review, int $oldRate = 0)
     {
         $this->review = $review;
+        $this->oldRate = $oldRate;
     }
 }

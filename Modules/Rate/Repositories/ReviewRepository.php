@@ -12,4 +12,9 @@ class ReviewRepository extends BaseRepository
     {
         return (new Review())->newQuery();
     }
+    
+    public function findById(int $id)
+    {
+        return $this->getQuery()->findOrFail($id);
+    }
 }

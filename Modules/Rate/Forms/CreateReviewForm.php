@@ -8,7 +8,7 @@ use Illuminate\Validation\Rule;
 use Modules\Rate\Constants\RateTypeConstant;
 use Modules\Rate\Dto\ReviewDto;
 
-class ReviewForm extends BaseForm
+class CreateReviewForm extends BaseForm
 {
     public function getDto(): BaseDto
     {
@@ -21,7 +21,6 @@ class ReviewForm extends BaseForm
     protected function rules(): array
     {
         return [
-            'id'      => 'exists:review,id',
             'user_id' => 'required|exists:users,id',
             'shop_id' => 'required|exists:shop,id',
             'rate'    => 'required|integer|min:1|max:5',

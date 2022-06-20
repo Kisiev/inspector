@@ -5,6 +5,7 @@ namespace Modules\Rate\Services\Review;
 use App\Components\Dto\BaseDto;
 use App\Components\Services\CrudService;
 use Illuminate\Database\Eloquent\Model;
+use Modules\Rate\Dto\ReviewDto;
 use Modules\Rate\Events\RateEvent;
 use Modules\Rate\Factories\ReviewFactory;
 use Modules\Rate\Models\Review;
@@ -31,9 +32,17 @@ class ReviewCrudService implements CrudService
         return $review;
     }
     
-    public function update(BaseDto $dto): Model
+    public function update(BaseDto|ReviewDto $dto): Model
     {
-        // TODO: Implement update() method.
+        $props = $dto->getProperties();
+        /** @var Review $review */
+        $review = $this->repository->findById($props['id']);
+        $oldRate = $review->rate;
+        $review->fill($props);
+        $this->repository->save($review);
+        
+        event(new RateEvent($review, $oldRate));
+        return $review;
     }
     
     public function delete(int $id): bool

@@ -7,7 +7,8 @@ use App\Components\Search\BaseSearch;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Modules\Rate\Dto\ShopSearchDto;
-use Modules\Rate\Forms\ReviewForm;
+use Modules\Rate\Forms\CreateReviewForm;
+use Modules\Rate\Forms\UpdateReviewForm;
 use Modules\Rate\Resources\Shop\ShopCollection;
 use Modules\Rate\Services\Review\ReviewCrudService;
 
@@ -35,9 +36,26 @@ class ShopController extends BaseApiController
         return $this->successResponse($shops);
     }
     
-    public function review(Request $request): JsonResponse
+    public function addReview(Request $request): JsonResponse
     {
-        $form = new ReviewForm();
+        $form = new CreateReviewForm();
+        $form->load(
+            [
+                'user_id' => $request->user()->id ?? '',
+                'shop_id' => $request->get('shop_id'),
+                'rate'    => $request->get('rate'),
+                'text'    => $request->get('text'),
+                'type'    => $request->get('type'),
+            ]
+        );
+        $form->validate();
+        $this->reviewCrudService->create($form->getDto());
+        return $this->successResponse([]);
+    }
+    
+    public function updateReview(Request $request): JsonResponse
+    {
+        $form = new UpdateReviewForm();
         $form->load(
             [
                 'id'      => $request->get('id'),
@@ -48,8 +66,8 @@ class ShopController extends BaseApiController
                 'type'    => $request->get('type'),
             ]
         );
-        
-        $review = $this->reviewCrudService->create($form->getDto());
+        $form->validate();
+        $this->reviewCrudService->update($form->getDto());
         return $this->successResponse([]);
     }
 }

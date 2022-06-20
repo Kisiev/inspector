@@ -27,8 +27,13 @@ class RateCreateHandler implements ShouldQueue
         $review = $event->review;
         $shop = $review->shop;
         
-        $reviewsValue = ($shop->reviews_value + $review->rate);
-        $shop->reviews_count ++;
+        if ($event->oldRate) {
+            $reviewsValue = ($shop->reviews_value - $event->oldRate) + $review->rate;
+        } else {
+            $reviewsValue = ($shop->reviews_value + $review->rate);
+            $shop->reviews_count ++;
+        }
+        
         $shop->rate = $reviewsValue / $shop->reviews_count;
         $shop->reviews_value = $reviewsValue;
         $this->repository->save($shop);
